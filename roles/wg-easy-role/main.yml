@@ -24,9 +24,19 @@
   src: ./templates/docker-compose.yml
   dest: ~/wg-easy/docker-compose.yml
 
-- name: open ufw ports
+- name: open ufw TCP ports
   ansible.buiiltin.ufw:
-    
+    rule: allow
+    port: "{{tcp_port}}"
+    proto: tcp
+  become: yes
+
+- name: open ufw UDP ports
+  ansible.buiiltin.ufw:
+    rule: allow
+    port: "{{udp_port}}"
+    proto: udp
+  become: yes
 
 # plan:
 
