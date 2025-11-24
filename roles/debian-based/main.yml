@@ -1,0 +1,38 @@
+---
+- name: update and upgrade
+  ansible.builtin.package:
+    upgrade: yes
+    update_cache: yes
+  become: yes
+
+- name: install docker and ufw
+  ansible.builtin.package:
+    name:
+    - docker
+    - docker-compose-plugin
+    - ufw
+  become: yes
+
+- name: make directory
+  ansible.builtin.file:
+    path: ~/wg-easy
+    state: directory
+  become: yes
+
+- name: copy docker-compose file
+  ansible.builtin.template:
+  src: ./templates/docker-compose.yml
+  dest: ~/wg-easy/docker-compose.yml
+
+- name: open ufw ports
+  ansible.buiiltin.ufw:
+    
+
+# plan:
+
+# apt update && upgrade DONE
+# install docker and docker compose DONE
+# make ~/wg-easy directory DONE
+# put wg-easy docker-compose file in ~/wg-easy done
+# have ufw open up ports 51820 UDP and 51821 TCP
+# docker-compose up -d the file

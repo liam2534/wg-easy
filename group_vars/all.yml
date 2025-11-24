@@ -1,0 +1,5 @@
+password_hash: (YOUR HASH)
+wg_host: (HOST IP ADDRESS)
+user: liam
+udp_port: 51820
+tcp_port: 51821
