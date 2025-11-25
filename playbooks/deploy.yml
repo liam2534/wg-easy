@@ -1,0 +1,3 @@
+---
+host: servers
+roles: wg-easy-role
