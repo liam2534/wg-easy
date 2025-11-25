@@ -5,11 +5,13 @@
     update_cache: yes
   become: yes
 
-- name: install docker and ufw
+- name: install docker, podman, and ufw
   ansible.builtin.package:
     name:
     - docker
     - docker-compose-plugin
+    - podman
+    - podman-compose
     - ufw
   become: yes
 
@@ -19,7 +21,7 @@
     state: directory
   become: yes
 
-- name: copy docker-compose file
+- name: copy docker-compose template
   ansible.builtin.template:
   src: ./templates/docker-compose.yml
   dest: ~/wg-easy/docker-compose.yml
@@ -37,6 +39,23 @@
     port: "{{udp_port}}"
     proto: udp
   become: yes
+
+- name: debian compose container
+  ansible.builtin.shell: |
+    cd ~/wg-easy
+    sudo docker-compose up -d
+  when: ansible_os_family == "Debian"
+
+- name: rhel compose container
+  ansible.builtin.shell: |
+    cd ~/wg-easy
+    podman-compose up -d
+  when: ansible_os_family == "RedHat"
+
+- name: rhel turn linger on for user
+  ansible.builtin.shell: |
+    sudo loginctl enable-linger $USER
+  when: ansible_os_family == "RedHat"
 
 # plan:
 
