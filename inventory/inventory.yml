@@ -1,0 +1,8 @@
+---
+all:
+  children:
+    servers:
+      hosts:
+        wg-host:
+          ansible_host: {{ wg_host }}
+          ansible_user: {{ user }}
